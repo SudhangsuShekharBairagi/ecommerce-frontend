@@ -126,7 +126,7 @@ const Product = () => {
 
   if (loading && !product) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center bg-gradient-to-br from-slate-50 via-white to-indigo-50 px-6">
+      <div className="flex min-h-[70vh] items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 px-6">
         <div className="rounded-3xl border border-slate-200 bg-white/80 px-8 py-6 text-center shadow-sm backdrop-blur">
           <h1 className="text-2xl font-semibold text-slate-900">
             Loading product details...
@@ -138,7 +138,7 @@ const Product = () => {
 
   if ((!product && error) || (!product && !loading)) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center bg-gradient-to-br from-slate-50 via-white to-indigo-50 px-6">
+      <div className="flex min-h-[70vh] items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 px-6">
         <div className="rounded-3xl border border-rose-200 bg-rose-50 px-8 py-6 text-center shadow-sm">
           <h1 className="text-2xl font-semibold text-rose-700">
             {error || "Product not found"}
@@ -149,9 +149,12 @@ const Product = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 px-4 py-8 sm:px-6 lg:px-8">
-       {altetInfo.show && (
-             <AlertMessage message={altetInfo.message}  onClose={() => setAltetInfo({show: false, message:" "})}/>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 px-4 py-8 sm:px-6 lg:px-8">
+      {altetInfo.show && (
+        <AlertMessage
+          message={altetInfo.message}
+          onClose={() => setAltetInfo({ show: false, message: " " })}
+        />
       )}
       <div className="mx-auto max-w-6xl">
         <div className="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_25px_60px_-25px_rgba(15,23,42,0.35)]">
@@ -191,7 +194,7 @@ const Product = () => {
                     disabled={!product.available}
                     className={`rounded-2xl px-6 py-3 font-semibold text-white transition-all duration-300 ${
                       product.available
-                        ? "bg-slate-900 hover:bg-indigo-600 hover:shadow-lg"
+                        ? "bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 hover:shadow-lg"
                         : "cursor-not-allowed bg-slate-400"
                     }`}
                     onClick={() => {

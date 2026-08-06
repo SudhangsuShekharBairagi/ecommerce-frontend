@@ -1,8 +1,7 @@
 import React from "react";
-import Home from "./pages/Home";
 import Navbar from "./Component/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router";
-import Product from "./pages/Product";
+import Product from "./pages/ProductDetails";
 import AddProduct from "./pages/AddProduct";
 import UpdateProduct from "./pages/UpdateProduct";
 import ProtectedRoute from "./auth/ProtectedRoute";
@@ -12,6 +11,7 @@ import Registration from "./pages/Registration";
 import AddCard from "./pages/AddCard";
 import Profile from "./pages/Profile";
 import AppInitializer from "./Component/AppInitializer";
+import HomePage from "./pages/HomePage";
 
 const App = () => {
   return (
@@ -21,7 +21,7 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route element={<Navbar />}>
-            <Route path="/" element={<Home />}></Route>
+            <Route path="/" element={<HomePage />}></Route>
             <Route
               path="/product/:id"
               element={

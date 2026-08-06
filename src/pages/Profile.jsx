@@ -54,8 +54,8 @@ function Profile() {
 
   if (loading || (!profile && !error)) {
     return (
-      <div className="flex min-h-screen  items-center justify-center bg-gray-100 p-6">
-        <div className="rounded-3xl border border-slate-200 bg-white px-8 py-6 shadow-sm text-center">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6">
+        <div className="rounded-3xl border border-slate-200 bg-white/90 px-8 py-6 text-center shadow-sm backdrop-blur">
           <h1 className="text-2xl font-semibold text-slate-900">
             Loading profile...
           </h1>
@@ -66,42 +66,36 @@ function Profile() {
 
   const userDetais = edit ? (
     <>
-      {/* Name */}
       <div className="text-center">
-        {/* <h2 className="text-2xl font-bold text-gray-800">
-          {profile?.username ?? "Guest"}
-        </h2> */}
         <input
           type="text"
           name="username"
           id="username"
-          className="w-full h-10 rounded-2xl text-center font-bold text-sky-700 border-2 border-sky-700"
+          className="h-11 w-full rounded-2xl border border-indigo-200 bg-indigo-50 px-4 text-center font-semibold text-indigo-700 outline-none transition focus:border-indigo-500 focus:bg-white"
           value={profileData.username}
           onChange={(e) => handleEdit("username", e.target.value)}
-          placeholder="Enter Your username"
+          placeholder="Enter your username"
         />
 
-        <div className="flex justify-center items-center gap-2 text-gray-500 mt-2">
+        <div className="mt-2 flex items-center justify-center gap-2 text-sm text-slate-500">
           <FaEnvelope />
           <span>{profile?.email ?? "-"}</span>
         </div>
       </div>
 
-      {/* Divider */}
-      <div className="border-t my-6"></div>
+      <div className="my-6 border-t border-slate-200"></div>
 
-      {/* Address Card */}
-      <div className="bg-gray-50 rounded-2xl p-5 shadow-sm">
-        <div className="flex items-center gap-2 text-sky-600 mb-4">
+      <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-5 shadow-sm">
+        <div className="mb-4 flex items-center gap-2 text-indigo-600">
           <FaMapMarkerAlt />
-          <h3 className="font-semibold text-lg">Address</h3>
+          <h3 className="text-lg font-semibold">Address</h3>
         </div>
         <div className="flex flex-col gap-2">
           <input
             type="text"
             name="street"
             id="street"
-            className="w-full h-10 rounded-2xl text-center font-bold text-sky-700 border-2 border-sky-700"
+            className="h-11 rounded-2xl border border-slate-200 bg-white px-4 text-center font-semibold text-slate-700 outline-none transition focus:border-indigo-500"
             value={profileData.street}
             onChange={(e) => handleEdit("street", e.target.value)}
             placeholder="Enter your street"
@@ -111,7 +105,7 @@ function Profile() {
             type="text"
             name="city"
             id="city"
-            className="w-full h-10 rounded-2xl text-center font-bold text-sky-700 border-2 border-sky-700"
+            className="h-11 rounded-2xl border border-slate-200 bg-white px-4 text-center font-semibold text-slate-700 outline-none transition focus:border-indigo-500"
             value={profileData.city}
             onChange={(e) => handleEdit("city", e.target.value)}
             placeholder="Enter your city"
@@ -121,7 +115,7 @@ function Profile() {
             type="text"
             name="state"
             id="state"
-            className="w-full h-10 rounded-2xl text-center font-bold text-sky-700 border-2 border-sky-700"
+            className="h-11 rounded-2xl border border-slate-200 bg-white px-4 text-center font-semibold text-slate-700 outline-none transition focus:border-indigo-500"
             value={profileData.state}
             onChange={(e) => handleEdit("state", e.target.value)}
             placeholder="Enter your state"
@@ -131,15 +125,15 @@ function Profile() {
             type="text"
             name="pinCode"
             id="pinCode"
-            className="w-full h-10 rounded-2xl text-center font-bold text-sky-700 border-2 border-sky-700"
+            className="h-11 rounded-2xl border border-slate-200 bg-white px-4 text-center font-semibold text-slate-700 outline-none transition focus:border-indigo-500"
             value={profileData.pinCode}
             onChange={(e) => handleEdit("pinCode", e.target.value)}
-            placeholder="Enter your pinCode"
+            placeholder="Enter your pin code"
           />
         </div>
         <button
           onClick={handleSave}
-          className="w-full mt-6 bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 rounded-xl transition duration-300"
+          className="mt-6 w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 py-3 font-semibold text-white transition hover:from-indigo-700 hover:to-blue-700"
         >
           Save
         </button>
@@ -147,28 +141,23 @@ function Profile() {
     </>
   ) : (
     <>
-      {" "}
-      {/* Name */}
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-800">
+        <h2 className="text-2xl font-bold text-slate-900">
           {profile?.username ?? "Guest"}
         </h2>
-
-        <div className="flex justify-center items-center gap-2 text-gray-500 mt-2">
+        <div className="mt-2 flex items-center justify-center gap-2 text-sm text-slate-500">
           <FaEnvelope />
           <span>{profile?.email ?? "-"}</span>
         </div>
       </div>
-      {/* Divider */}
-      <div className="border-t my-6"></div>
-      {/* Address Card */}
-      <div className="bg-gray-50 rounded-2xl p-5 shadow-sm">
-        <div className="flex items-center gap-2 text-sky-600 mb-4">
+      <div className="my-6 border-t border-slate-200"></div>
+      <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-5 shadow-sm">
+        <div className="mb-4 flex items-center gap-2 text-indigo-600">
           <FaMapMarkerAlt />
-          <h3 className="font-semibold text-lg">Address</h3>
+          <h3 className="text-lg font-semibold">Address</h3>
         </div>
 
-        <div className="space-y-2 text-gray-700">
+        <div className="space-y-2 text-slate-700">
           <div className="flex justify-between">
             <span className="font-medium">Street</span>
             <span>{profile.street || "-"}</span>
@@ -204,34 +193,30 @@ function Profile() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden">
-        {/* Header */}
-        <div className="h-32 bg-linear-to-r from-sky-500 to-indigo-600 relative">
-          <button className="absolute top-4 right-4 text-white text-2xl hover:scale-110 transition cursor-pointer">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6">
+      <div className="w-full max-w-md overflow-hidden rounded-[32px] border border-white/10 bg-white shadow-[0_25px_80px_-20px_rgba(15,23,42,0.45)]">
+        <div className="relative h-32 bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500">
+          <button className="absolute right-4 top-4 cursor-pointer text-2xl text-white transition hover:scale-110">
             <FaUserEdit />
           </button>
 
-          {/* Avatar */}
-          <div className="absolute left-1/2 -bottom-14 transform -translate-x-1/2">
-            <div className="w-28 h-28 rounded-full bg-white p-1 shadow-lg">
+          <div className="absolute left-1/2 -bottom-14 -translate-x-1/2">
+            <div className="h-28 w-28 rounded-full bg-white p-1 shadow-lg">
               <img
                 src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff"
                 alt="Profile"
-                className="w-full h-full rounded-full object-cover"
+                className="h-full w-full rounded-full object-cover"
               />
             </div>
           </div>
         </div>
-        {/* Body */}
-        <div className="pt-20 pb-8 px-6">
+        <div className="px-6 pb-8 pt-20">
           {userDetais}
-          {/* Button */}
           <button
-            className="w-full mt-6 bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 rounded-xl transition duration-300"
+            className="mt-6 w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 py-3 font-semibold text-white transition hover:from-indigo-700 hover:to-blue-700"
             onClick={() => setEdit(!edit)}
           >
-            {edit ? "Cencel" : "Edit Profile"}
+            {edit ? "Cancel" : "Edit Profile"}
           </button>
         </div>
       </div>

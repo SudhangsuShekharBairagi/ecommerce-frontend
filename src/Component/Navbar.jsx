@@ -31,7 +31,6 @@ export default function Navbar() {
       setDisplaySearch(false);
     }
   }, [searchText]);
-  // console.log("Search Results in Navbar:", searchResults);
 
   const totalQuantity = cartItems.reduce(
     (total, item) => total + item.quantity,
@@ -70,48 +69,44 @@ export default function Navbar() {
 
   return (
     <>
-      {" "}
-      <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <div className="flex items-center gap-3 cursor-pointer">
-              <div className="w-12 h-12 rounded-2xl bg-linear-to-r from-blue-600 to-violet-600 flex items-center justify-center shadow-lg">
-                <FaShoppingBag className="text-white text-xl" />
+      <nav className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 shadow-[0_10px_30px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-20 items-center justify-between">
+            <div className="flex cursor-pointer items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 via-blue-600 to-cyan-500 shadow-lg shadow-indigo-200">
+                <FaShoppingBag className="text-xl text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-linear-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
+                <h1 className="bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 bg-clip-text text-2xl font-bold text-transparent">
                   TechStore
                 </h1>
-                <p className="text-xs text-slate-500 -mt-1">
+                <p className="-mt-1 text-xs text-slate-500">
                   Premium Electronics
                 </p>
               </div>
             </div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-8">
+            <div className="hidden items-center gap-8 lg:flex">
               {navLinks.map((navlink, idx) => (
                 <NavLink
                   key={idx}
                   to={`${navlink.link}`}
-                  className="text-slate-700 font-medium hover:text-blue-600 transition-colors relative group"
+                  className="relative font-medium text-slate-700 transition-colors duration-200 hover:text-indigo-600"
                 >
                   {navlink.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gradient-to-r from-indigo-600 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
                 </NavLink>
               ))}
             </div>
 
-            {/* Search Bar */}
-            <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
+            <div className="mx-8 hidden flex-1 items-center md:flex">
               <div className="relative w-full">
                 <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   onChange={(e) => handleChange(e.target.value)}
                   type="text"
                   placeholder="Search products..."
-                  className="w-full pl-12 pr-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-12 pr-4 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
                 />
                 {displaySearch && (
                   <SearchReasult
@@ -123,89 +118,75 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Action Icons */}
             <div className="flex items-center gap-3">
-              <button className=" sm:flex w-11 h-11 rounded-xl hover:bg-slate-100 items-center justify-center transition-colors relative">
-                <FaHeart className="text-slate-700 text-lg" />
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+              <button className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white/80 transition hover:bg-slate-50">
+                <FaHeart className="text-lg text-slate-700" />
+                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-semibold text-white">
                   2
                 </span>
               </button>
 
               <button
-                className="flex w-11 h-11 rounded-xl hover:bg-slate-100 items-center justify-center transition-colors relative"
-                onClick={() => {
-                  navigate("/addcard");
-                }}
+                className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white/80 transition hover:bg-slate-50"
+                onClick={() => navigate("/addcard")}
               >
-                <FaShoppingCart className="text-slate-700 text-lg" />
-
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-blue-600 text-white text-xs rounded-full flex items-center justify-center">
+                <FaShoppingCart className="text-lg text-slate-700" />
+                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-semibold text-white">
                   {totalQuantity}
                 </span>
-
-                {/* <span className="absolute -top-1 -right-1 w-5 h-5 bg-blue-600 text-white text-xs rounded-full flex items-center justify-center">
-                  3
-                </span> */}
               </button>
 
               <button
-                className=" sm:flex w-11 h-11 rounded-xl hover:bg-slate-100 items-center justify-center transition-colors cursor-pointer"
-                onClick={() => {
-                  navigate("/profile");
-                }}
+                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-2xl border border-slate-200 bg-white/80 transition hover:bg-slate-50"
+                onClick={() => navigate("/profile")}
               >
-                <FaUser className="text-slate-700 text-lg" />
+                <FaUser className="text-lg text-slate-700" />
               </button>
 
-              {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="lg:hidden w-11 h-11 rounded-xl hover:bg-slate-100 flex items-center justify-center transition-colors"
+                className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white/80 transition hover:bg-slate-50 lg:hidden"
               >
                 {isMenuOpen ? (
-                  <FaTimes className="text-slate-700 text-xl" />
+                  <FaTimes className="text-xl text-slate-700" />
                 ) : (
-                  <FaBars className="text-slate-700 text-xl" />
+                  <FaBars className="text-xl text-slate-700" />
                 )}
               </button>
             </div>
           </div>
 
-          {/* Mobile Search */}
-          <div className="md:hidden pb-4">
+          <div className="pb-4 md:hidden">
             <div className="relative">
               <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 onChange={(e) => handleChange(e.target.value)}
                 type="text"
                 placeholder="Search products..."
-                className="w-full pl-12 pr-4 py-3 rounded-2xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-12 pr-4 text-sm text-slate-700 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
               />
               {displaySearch && (
                 <SearchReasult
                   searchError={searchError}
                   searchResult={searchResults}
-                  // setDisplaySearch={setDisplaySearch}
                 />
               )}
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu */}
         <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ${
+          className={`overflow-hidden transition-all duration-300 lg:hidden ${
             isMenuOpen ? "max-h-96 border-t border-slate-200" : "max-h-0"
           }`}
         >
-          <div className="px-4 py-4 bg-white">
+          <div className="bg-slate-50/70 px-4 py-4">
             <div className="flex flex-col space-y-1">
               {navLinks.map((navlink, idx) => (
                 <NavLink
                   key={idx}
                   to={`${navlink.link}`}
-                  className="px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-100 hover:text-blue-600 transition-colors"
+                  className="rounded-2xl px-4 py-3 text-slate-700 transition hover:bg-white hover:text-indigo-600"
                 >
                   {navlink.name}
                 </NavLink>

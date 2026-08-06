@@ -37,7 +37,7 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center bg-gradient-to-br from-slate-50 via-white to-indigo-50 px-6">
+      <div className="flex min-h-[70vh] items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-gray-950 px-6">
         <div className="rounded-3xl border border-slate-200 bg-white/80 px-8 py-6 text-center shadow-sm backdrop-blur">
           <h1 className="text-2xl font-semibold text-slate-900">
             Loading products...
@@ -52,7 +52,7 @@ const Home = () => {
 
   if (error) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center bg-gradient-to-br from-slate-50 via-white to-indigo-50 px-6">
+      <div className="flex min-h-[70vh] items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-gray-950 px-6">
         <div className="rounded-3xl border border-rose-200 bg-rose-50 px-8 py-6 text-center shadow-sm">
           <h1 className="text-2xl font-semibold text-rose-700">{error}</h1>
         </div>
@@ -75,7 +75,7 @@ const Home = () => {
           <div className="rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-700">
             {productsWithImages.length} items available
           </div>
-        </div>
+        </div>    
        
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {productsWithImages.map((product) => (
