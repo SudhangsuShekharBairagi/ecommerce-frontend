@@ -8,7 +8,7 @@ import {
 } from "../redux/productSlice";
 
 
-const Home = () => {
+const Products = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const products = useSelector(selectAllProducts);
@@ -141,4 +141,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Products;

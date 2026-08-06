@@ -1,12 +1,13 @@
 import React from "react";
 import HeroSection from "../Component/HeroSection";
-import Product from "../Component/ProductDetails";
+import Products from "../Component/Products";
+
 
 function HomePage() {
   return (
     <div className="bg-transparent">
       <HeroSection />
-      <Product />
+      <Products />
     </div>
   );
 }
