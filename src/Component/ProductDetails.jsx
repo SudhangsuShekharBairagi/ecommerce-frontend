@@ -8,7 +8,7 @@ import {
   deleteProductThunk,
   selectProductById,
 } from "../redux/productSlice";
-import AlertMessage from "../Component/AlertMessage";
+import AlertMessage from "./AlertMessage";
 
 const Product = () => {
   const { id } = useParams();

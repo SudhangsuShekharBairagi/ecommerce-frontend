@@ -1,6 +1,6 @@
 import React from "react";
 import HeroSection from "../Component/HeroSection";
-import Product from "./ProductDetails";
+import Product from "../Component/ProductDetails";
 
 function HomePage() {
   return (

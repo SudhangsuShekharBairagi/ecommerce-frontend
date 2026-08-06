@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import FormUl from "../Component/FormUl";
+import FormUl from "./FormUl";
 import {
   fetchProductById,
   fetchProductImage,
   updateProductThunk,
   selectProductById,
 } from "../redux/productSlice";
-import AlertMessage from "../Component/AlertMessage";
+import AlertMessage from "./AlertMessage";
 
 const UpdateProduct = () => {
   const initialProduct = {

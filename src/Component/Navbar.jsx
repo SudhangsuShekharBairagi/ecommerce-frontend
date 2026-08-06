@@ -11,7 +11,7 @@ import {
 import { NavLink, Outlet, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { searchProductsThunk } from "../redux/productSlice";
-import SearchReasult from "../pages/SearchReasult";
+import SearchReasult from "./SearchReasult";
 import Footer from "./Footer";
 
 export default function Navbar() {
