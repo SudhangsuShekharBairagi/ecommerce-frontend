@@ -38,6 +38,7 @@ export const fetchProductById = createAsyncThunk('products/fetchProductById', as
 
 export const fetchProductImage = createAsyncThunk('products/fetchProductImage', async (id) => {
   const imageUrl = await getProductImageUrl(id);
+  // console.log(imageUrl);
   return { id, imageUrl };
 });
 

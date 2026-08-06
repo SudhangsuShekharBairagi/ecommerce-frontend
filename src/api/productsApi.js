@@ -50,8 +50,8 @@ export const getProductById = async (id) => {
 
 export const getProductImageUrl = async (id) => {
   const response = await request(`/product/${id}/image`);
-  const blob = await response.blob();
-  return URL.createObjectURL(blob);
+  const imageUrl = await response.text();
+  return imageUrl;
 };
 
 export const searchProducts = async (keyword) => {

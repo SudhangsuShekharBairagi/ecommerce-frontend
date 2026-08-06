@@ -23,7 +23,7 @@ function Registration() {
   const dispatch = useDispatch();
   const authError = useSelector((state) => state.auth.error);
   const authLoading = useSelector((state) => state.auth.loading);
-
+  const [altetInfo, setAltetInfo] = useState({ show: false, message: "" });
   useEffect(() => {
     if (authError) {
       setError(authError);
@@ -56,10 +56,9 @@ function Registration() {
     try {
       await dispatch(registerThunk(loginData)).unwrap();
       // alert("Registration Successful");
-       setAltetInfo({
+      setAltetInfo({
         show: true,
         message: `Registration Successful`,
-       
       });
       navigate("/login");
     } catch (err) {
@@ -69,8 +68,11 @@ function Registration() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 px-4 py-10 sm:px-6 lg:px-8">
-       {altetInfo.show && (
-             <AlertMessage message={altetInfo.message}  onClose={() => setAltetInfo({show: false, message:" "})}/>
+      {altetInfo.show && (
+        <AlertMessage
+          message={altetInfo.message}
+          onClose={() => setAltetInfo({ show: false, message: " " })}
+        />
       )}
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-5xl items-center justify-center">
         <div className="w-full overflow-hidden rounded-[32px] border border-white/10 bg-white/90 shadow-[0_25px_80px_-20px_rgba(15,23,42,0.45)] backdrop-blur-xl">

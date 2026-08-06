@@ -30,6 +30,7 @@ const UpdateProduct = () => {
   const navigate = useNavigate();
   const productFromStore = useSelector((state) => selectProductById(state, id));
   const productImageUrl = useSelector((state) => state.products.imageUrls[id]);
+  const [altetInfo, setAltetInfo] = useState({ show: false, message: "" });
 
   useEffect(() => {
     if (id) {
@@ -96,10 +97,9 @@ const UpdateProduct = () => {
     } catch (error) {
       console.error("Error updating product:", error);
       // alert(`Error: ${error.message}`);
-       setAltetInfo({
+      setAltetInfo({
         show: true,
         message: `Error: ${error.message}`,
-       
       });
     } finally {
       setLoading(false);
@@ -107,18 +107,23 @@ const UpdateProduct = () => {
   };
 
   return (
-    <> {altetInfo.show && (
-             <AlertMessage message={altetInfo.message}  onClose={() => setAltetInfo({show: false, message:" "})}/>
+    <>
+      {" "}
+      {altetInfo.show && (
+        <AlertMessage
+          message={altetInfo.message}
+          onClose={() => setAltetInfo({ show: false, message: " " })}
+        />
       )}
-    <FormUl
-      productOparation="Update The Product"
-      product={product}
-      setProduct={setProduct}
-      submitHandler={submitHandler}
-      loading={loading}
-      image={image}
-      setImage={setImage}
-    />
+      <FormUl
+        productOparation="Update The Product"
+        product={product}
+        setProduct={setProduct}
+        submitHandler={submitHandler}
+        loading={loading}
+        image={image}
+        setImage={setImage}
+      />
     </>
   );
 };
