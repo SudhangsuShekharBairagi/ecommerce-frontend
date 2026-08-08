@@ -17,6 +17,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const authError = useSelector((state) => state.auth.error);
   const token = useSelector((state) => state.auth.token);
+  const loading = useSelector((state) => state.auth.loading);
+
   const getStoreCartItems = async () => {
     try {
       const data = await fetchCartItems();
@@ -134,9 +136,10 @@ const Login = () => {
 
                 <button
                   type="submit"
+                  disabled={loading}
                   className="w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:from-indigo-700 hover:to-blue-700"
                 >
-                  Login
+                  {loading ? "Processing..." : "Login"}
                 </button>
 
                 <div className="pt-2 text-center text-sm text-slate-500">

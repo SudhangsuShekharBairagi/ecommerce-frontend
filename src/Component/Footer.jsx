@@ -1,7 +1,8 @@
-import { Link } from "react-router";
+import { Link, ScrollRestoration } from "react-router";
 import { FaGithub, FaLinkedin, FaInstagram, FaEnvelope } from "react-icons/fa";
 
 function Footer() {
+  <ScrollRestoration />;
   return (
     <footer className="mt-16 border-t border-slate-200 bg-white/80 backdrop-blur">
       <div className="mx-auto max-w-7xl px-6 py-12">

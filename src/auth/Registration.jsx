@@ -218,9 +218,10 @@ function Registration() {
 
                 <button
                   type="submit"
+                  disabled={loading}
                   className="w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:from-indigo-700 hover:to-blue-700"
                 >
-                  Register
+                  {loading ? "Processing..." : "Register"}
                 </button>
               </form>
             </div>
