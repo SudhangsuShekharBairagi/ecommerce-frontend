@@ -24,6 +24,7 @@ function Registration() {
   const authError = useSelector((state) => state.auth.error);
   const authLoading = useSelector((state) => state.auth.loading);
   const [altetInfo, setAltetInfo] = useState({ show: false, message: "" });
+  const [image, setImage] = useState(null);
   useEffect(() => {
     if (authError) {
       setError(authError);
@@ -48,13 +49,35 @@ function Registration() {
       }));
     }
   };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    setImage(file || null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
+    if (!image) {
+      setAltetInfo({
+        show: true,
+        message: "Please select a profile image.",
+      });
+      return;
+    }
+
     try {
-      await dispatch(registerThunk(loginData)).unwrap();
+      const formData = new FormData();
+      formData.append("imageFile", image);
+      formData.append(
+        "user",
+        new Blob([JSON.stringify(loginData)], {
+          type: "application/json",
+        }),
+      );
+
+      await dispatch(registerThunk(formData)).unwrap();
       // alert("Registration Successful");
       setAltetInfo({
         show: true,
@@ -117,6 +140,16 @@ function Registration() {
                 )}
 
                 <div className="grid gap-4 sm:grid-cols-2">
+                  <label className="block text-sm font-medium text-slate-700 sm:col-span-2">
+                    <span className="mb-2 block">Image</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      required
+                      className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-100"
+                    />
+                  </label>
                   <label className="block text-sm font-medium text-slate-700 sm:col-span-2">
                     <span className="mb-2 block">Username</span>
                     <input
@@ -218,10 +251,10 @@ function Registration() {
 
                 <button
                   type="submit"
-                  disabled={loading}
-                  className="w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:from-indigo-700 hover:to-blue-700"
+                  disabled={authLoading}
+                  className="w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition hover:from-indigo-700 hover:to-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {loading ? "Processing..." : "Register"}
+                  {authLoading ? "Processing..." : "Register"}
                 </button>
               </form>
             </div>

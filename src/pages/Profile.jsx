@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editProfileThunk, fetchProfile } from "../redux/profileSlice";
 import { FaUserEdit, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
+import { RiImageEditLine } from "react-icons/ri";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -191,22 +192,23 @@ function Profile() {
       </div>
     );
   }
-
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6">
       <div className="w-full max-w-md overflow-hidden rounded-[32px] border border-white/10 bg-white shadow-[0_25px_80px_-20px_rgba(15,23,42,0.45)]">
         <div className="relative h-32 bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500">
-          <button className="absolute right-4 top-4 cursor-pointer text-2xl text-white transition hover:scale-110">
-            <FaUserEdit />
-          </button>
-
           <div className="absolute left-1/2 -bottom-14 -translate-x-1/2">
             <div className="h-28 w-28 rounded-full bg-white p-1 shadow-lg">
               <img
-                src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff"
+                src={
+                  profile?.imageUrl ||
+                  "https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff"
+                }
                 alt="Profile"
                 className="h-full w-full rounded-full object-cover"
               />
+              <button className="absolute right-0 top-1 cursor-pointer text-2xl text-black transition hover:scale-110">
+                <RiImageEditLine />
+              </button>
             </div>
           </div>
         </div>

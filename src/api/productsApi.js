@@ -147,11 +147,8 @@ export const login = async (credentials) => {
 
 export const register = async (registrationData) => {
   const response = await fetch(`${API_BASE_URL}/auth/register`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(registrationData),
+    method: 'POST',   
+    body:registrationData,
   });
 
   if (!response.ok) {
