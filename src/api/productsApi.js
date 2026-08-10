@@ -175,7 +175,7 @@ export const register = async (registrationData) => {
 };
 
 export const healthCheckUp = async () => {
-  const res = await fetch(`${API_BASE_URL}/api/health`);
+  const res = await fetch(`${API_BASE_URL}/health`);
   if(!res.ok){
     return "Down";
   }
