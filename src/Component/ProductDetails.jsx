@@ -136,12 +136,12 @@ const Product = () => {
       <div className="flex min-h-[70vh] items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 px-6">
         <div className="rounded-3xl border border-slate-200 bg-white/80 px-8 py-6 text-center shadow-sm backdrop-blur">
           <h1 className="text-2xl font-semibold text-slate-900">
-            Loading product details...
-            <BackendStatus />
-            This application is hosted on a free deployment service, so the
-            backend may take a few moments to start after a period of
-            inactivity. Please wait a moment while we get things ready.
+            Loading product details... This application is hosted on a free
+            deployment service, so the backend may take a few moments to start
+            after a period of inactivity. Please wait a moment while we get
+            things ready.
           </h1>
+          <BackendStatus />
         </div>
       </div>
     );

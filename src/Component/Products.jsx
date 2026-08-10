@@ -44,12 +44,12 @@ const Products = () => {
             Loading products...
           </h1>
           <p className="mt-2 text-sm text-slate-500">
-            Please wait while we fetch the latest picks.
-            <BackendStatus />
-            This application is hosted on a free deployment service, so the
-            backend may take a few moments to start after a period of
-            inactivity. Please wait a moment while we get things ready.
+            Please wait while we fetch the latest picks. This application is
+            hosted on a free deployment service, so the backend may take a few
+            moments to start after a period of inactivity. Please wait a moment
+            while we get things ready.
           </p>
+          <BackendStatus />
         </div>
       </div>
     );
