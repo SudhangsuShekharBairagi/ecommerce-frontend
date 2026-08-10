@@ -14,6 +14,7 @@ const ProductDisplay = ({ productsWithImages }) => {
             <img
               src={product.imageUrl}
               alt={product.name}
+              loading="lazy"
               className="h-56 w-full object-contain transition-transform duration-500 group-hover:scale-110"
             />
 
@@ -54,7 +55,7 @@ const ProductDisplay = ({ productsWithImages }) => {
 
               <button
                 onClick={() => navigate(`/product/${product.id}`)}
-                className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-indigo-600"
+                className="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition-colors duration-300 cursor-pointer hover:bg-indigo-600"
               >
                 View Details
               </button>

@@ -127,7 +127,7 @@ export default function Navbar() {
               </button>
 
               <button
-                className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white/80 transition hover:bg-slate-50"
+                className="relative flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white/80 transition hover:bg-slate-50 cursor-pointer"
                 onClick={() => navigate("/addcard")}
               >
                 <FaShoppingCart className="text-lg text-slate-700" />
@@ -140,7 +140,7 @@ export default function Navbar() {
                 className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-2xl border border-slate-200 bg-white/80 transition hover:bg-slate-50"
                 onClick={() => navigate("/profile")}
               >
-                <FaUser className="text-lg text-slate-700" />
+                <FaUser className="text-lg text-slate-700 cursor-pointer" />
               </button>
 
               <button
@@ -148,9 +148,9 @@ export default function Navbar() {
                 className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white/80 transition hover:bg-slate-50 lg:hidden"
               >
                 {isMenuOpen ? (
-                  <FaTimes className="text-xl text-slate-700" />
+                  <FaTimes className="text-xl text-slate-700 cursor-pointer" />
                 ) : (
-                  <FaBars className="text-xl text-slate-700" />
+                  <FaBars className="text-xl text-slate-700 cursor-pointer" />
                 )}
               </button>
             </div>
@@ -195,7 +195,6 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-   
     </>
   );
 }

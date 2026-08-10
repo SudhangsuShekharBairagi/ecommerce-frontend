@@ -9,6 +9,7 @@ import {
   selectProductById,
 } from "../redux/productSlice";
 import AlertMessage from "./AlertMessage";
+import BackendStatus from "./BackendStatus";
 
 const Product = () => {
   const { id } = useParams();
@@ -19,6 +20,7 @@ const Product = () => {
   const loading = useSelector((state) => state.products.loading);
   const error = useSelector((state) => state.products.error);
   const role = useSelector((state) => state.auth.role);
+  const { token } = useSelector((state) => state.auth);
   const [productAddMessage, setProductAddMessage] = React.useState("");
 
   const cartItems = useSelector((state) => state.cart);
@@ -63,6 +65,11 @@ const Product = () => {
       productId: "",
       quantity: "",
     };
+    if (!token) {
+      navigate("/login");
+
+      return;
+    }
 
     if (avl.productId === product.id && avl.quantity >= product.quantity) {
       // alert(`Sorry\nWe have only ${product.quantity} prices.`);
@@ -130,6 +137,10 @@ const Product = () => {
         <div className="rounded-3xl border border-slate-200 bg-white/80 px-8 py-6 text-center shadow-sm backdrop-blur">
           <h1 className="text-2xl font-semibold text-slate-900">
             Loading product details...
+            <BackendStatus />
+            This application is hosted on a free deployment service, so the
+            backend may take a few moments to start after a period of
+            inactivity. Please wait a moment while we get things ready.
           </h1>
         </div>
       </div>
@@ -195,7 +206,7 @@ const Product = () => {
                     className={`rounded-2xl px-6 py-3 font-semibold text-white transition-all duration-300 ${
                       product.available
                         ? "bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 hover:shadow-lg"
-                        : "cursor-not-allowed bg-slate-400"
+                        : "cursor-not-allowed bg-slate-400 cursor-pointer"
                     }`}
                     onClick={() => {
                       product.available && handleQuantity();

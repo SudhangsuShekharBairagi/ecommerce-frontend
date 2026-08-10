@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editProfileThunk, fetchProfile } from "../redux/profileSlice";
 import { FaUserEdit, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
 import { RiImageEditLine } from "react-icons/ri";
+import { MdOutlineModeEdit } from "react-icons/md";
+import { FcEditImage } from "react-icons/fc";
+import { editImage } from "../api/productsApi";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -10,7 +13,7 @@ function Profile() {
   const loading = useSelector((state) => state.profile.loading);
   const error = useSelector((state) => state.profile.error);
   const [edit, setEdit] = useState(false);
-
+  // const [image, setImage] = useState(null);
   const [profileData, setProfileData] = useState({
     username: "",
     street: "",
@@ -53,6 +56,31 @@ function Profile() {
     }
   };
 
+  const handleImageChange = async (e) => {
+    const image = e.target.files?.[0];
+
+    if (!image) {
+      alert("Please select an image");
+      return;
+    }
+
+    if (!image.type.startsWith("image/")) {
+      alert("Please select a valid image");
+      return;
+    }
+
+    if (image.size > 5 * 1024 * 1024) {
+      alert("Image size must be less than 5 MB");
+      return;
+    }
+
+    try {
+      const message = await editImage(image);
+      alert(message);
+    } catch (error) {
+      alert(error.message || "Failed to update profile image");
+    }
+  };
   if (loading || (!profile && !error)) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6">
@@ -206,9 +234,20 @@ function Profile() {
                 alt="Profile"
                 className="h-full w-full rounded-full object-cover"
               />
-              <button className="absolute right-0 top-1 cursor-pointer text-2xl text-black transition hover:scale-110">
-                <RiImageEditLine />
-              </button>
+              <label
+                htmlFor="profile-image"
+                className="cursor-pointer absolute top-2 right-0 w-7 h-7 rounded-full bg-sky-400 flex justify-center items-center transition-colors hover:bg-sky-500"
+              >
+                <MdOutlineModeEdit className="text-xl text-black  transition hover:scale-110" />
+              </label>
+
+              <input
+                id="profile-image"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
             </div>
           </div>
         </div>

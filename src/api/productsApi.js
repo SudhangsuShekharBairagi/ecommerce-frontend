@@ -85,14 +85,29 @@ export const editProfile = async (profileData) => {
     },
     body: JSON.stringify(profileData),
   });
+}
 
-  const contentType = response.headers.get('content-type') || '';
-  if (contentType.includes('application/json')) {
+export const editImage = async (image) => {
+  const formData = new FormData();
+
+  formData.append("imageFile", image);
+
+  const response = await request("/profile/editImage", {
+    method: "PUT",
+    body: formData,
+  });
+
+  const contentType =
+    response.headers.get("content-type") || "";
+
+  if (contentType.includes("application/json")) {
     return response.json();
   }
 
   return response.text();
 };
+  
+    
 export const deleteProduct = async (id) => {
   const response = await request(`/product/${id}`, {
     method: 'DELETE',
@@ -104,7 +119,7 @@ export const deleteProduct = async (id) => {
 export const checkout = async (productId, quantity) => {
   const response = await request(`/checkout/${productId}?quantity=${quantity}`, {
     method: 'POST'
-   
+
   });
 
   return response.text();
@@ -114,11 +129,11 @@ export const getProfile = async () => {
   const response = await request('/profile');
   return response.json();
 };
-export const fetchCartItems = async()=> {
+export const fetchCartItems = async () => {
   const response = await request('/cartItem');
   return response.json();
 }
-export const addCartItems= async (data) => {
+export const addCartItems = async (data) => {
   const response = await request('/cartItem', {
     method: 'POST',
     headers: {
@@ -147,8 +162,8 @@ export const login = async (credentials) => {
 
 export const register = async (registrationData) => {
   const response = await fetch(`${API_BASE_URL}/auth/register`, {
-    method: 'POST',   
-    body:registrationData,
+    method: 'POST',
+    body: registrationData,
   });
 
   if (!response.ok) {
@@ -159,4 +174,11 @@ export const register = async (registrationData) => {
   return response.json();
 };
 
+export const healthCheckUp = async () => {
+  const res = await fetch(`${API_BASE_URL}/api/health`);
+  if(!res.ok){
+    return "Down";
+  }
+  return res.text();
+}
 export { buildApiUrl };
