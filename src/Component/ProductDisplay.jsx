@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
-import ProductCard from "../components/ui/ProductCard";
+import ProductCard from "../component/ui/ProductCard";
 
 const ProductDisplay = ({ productsWithImages }) => {
   const navigate = useNavigate();

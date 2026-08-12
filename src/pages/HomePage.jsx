@@ -9,7 +9,7 @@ import {
 import HeroSection from "../Component/HeroSection";
 import Products from "../Component/Products";
 import ProductFilter from "../Component/ProductFilter";
-import Button from "../components/ui/Button";
+import Button from "../component/ui/Button";
 
 const categoryCards = [
   {

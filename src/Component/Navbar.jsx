@@ -12,7 +12,7 @@ import { NavLink, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { searchProductsThunk } from "../redux/productSlice";
 import SearchReasult from "./SearchReasult";
-import Button from "../components/ui/Button";
+import Button from "./ui/Button";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

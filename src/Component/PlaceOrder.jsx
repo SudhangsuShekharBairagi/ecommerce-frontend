@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Button from "../components/ui/Button";
+import Button from "../component/ui/Button";
 
 function PlaceOrder() {
   const cartItems = useSelector((state) => state.cart);
