@@ -1,45 +1,67 @@
-import React, { use, useEffect, useState } from "react";
+// jsx
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editProfileThunk, fetchProfile } from "../redux/profileSlice";
-import { FaUserEdit, FaMapMarkerAlt, FaEnvelope } from "react-icons/fa";
-import { RiImageEditLine } from "react-icons/ri";
-import { MdOutlineModeEdit } from "react-icons/md";
-import { FcEditImage } from "react-icons/fc";
+
+import {
+  FaUser,
+  FaMapMarkerAlt,
+  FaEnvelope,
+  FaCamera,
+  FaCheck,
+  FaTimes,
+  FaShieldAlt,
+} from "react-icons/fa";
+
+import { MdEdit, MdLocationOn } from "react-icons/md";
 import { editImage } from "../api/productsApi";
 
 function Profile() {
   const dispatch = useDispatch();
+
   const profile = useSelector((state) => state.profile.profile);
   const loading = useSelector((state) => state.profile.loading);
   const error = useSelector((state) => state.profile.error);
+
   const [edit, setEdit] = useState(false);
-  // const [image, setImage] = useState(null);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [saveLoading, setSaveLoading] = useState(false);
+
   const [profileData, setProfileData] = useState({
     username: "",
     street: "",
     city: "",
-    pinCode: "",
     state: "",
+    pinCode: "",
   });
 
+  // -----------------------------
+  // Fetch profile
+  // -----------------------------
   useEffect(() => {
     if (!profile) {
       dispatch(fetchProfile());
     }
   }, [dispatch, profile]);
 
+  // -----------------------------
+  // Populate form
+  // -----------------------------
   useEffect(() => {
     if (profile) {
       setProfileData({
         username: profile.username || "",
         street: profile.street || "",
         city: profile.city || "",
-        pinCode: profile.pinCode || "",
         state: profile.state || "",
+        pinCode: profile.pinCode || "",
       });
     }
   }, [profile]);
 
+  // -----------------------------
+  // Handle input
+  // -----------------------------
   const handleEdit = (field, value) => {
     setProfileData((prev) => ({
       ...prev,
@@ -47,220 +69,464 @@ function Profile() {
     }));
   };
 
+  // -----------------------------
+  // Save profile
+  // -----------------------------
   const handleSave = async () => {
     try {
+      setSaveLoading(true);
+
       await dispatch(editProfileThunk(profileData)).unwrap();
+
       setEdit(false);
     } catch (err) {
       console.error("Failed to update profile:", err);
+    } finally {
+      setSaveLoading(false);
     }
   };
 
+  // -----------------------------
+  // Cancel editing
+  // -----------------------------
+  const handleCancel = () => {
+    if (profile) {
+      setProfileData({
+        username: profile.username || "",
+        street: profile.street || "",
+        city: profile.city || "",
+        state: profile.state || "",
+        pinCode: profile.pinCode || "",
+      });
+    }
+
+    setEdit(false);
+  };
+
+  // -----------------------------
+  // Image upload
+  // -----------------------------
   const handleImageChange = async (e) => {
     const image = e.target.files?.[0];
 
-    if (!image) {
-      alert("Please select an image");
-      return;
-    }
+    if (!image) return;
 
     if (!image.type.startsWith("image/")) {
-      alert("Please select a valid image");
+      alert("Please select a valid image.");
       return;
     }
 
     if (image.size > 5 * 1024 * 1024) {
-      alert("Image size must be less than 5 MB");
+      alert("Image size must be less than 5 MB.");
       return;
     }
 
     try {
+      setImageLoading(true);
+
       const message = await editImage(image);
+
       alert(message);
-    } catch (error) {
-      alert(error.message || "Failed to update profile image");
+
+      // Refresh profile so the new image appears
+      dispatch(fetchProfile());
+    } catch (err) {
+      alert(err.message || "Failed to update profile image");
+    } finally {
+      setImageLoading(false);
     }
   };
-  if (loading || (!profile && !error)) {
+
+  // -----------------------------
+  // Loading
+  // -----------------------------
+  if (loading && !profile) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6">
-        <div className="rounded-3xl border border-slate-200 bg-white/90 px-8 py-6 text-center shadow-sm backdrop-blur">
-          <h1 className="text-2xl font-semibold text-slate-900">
-            Loading profile...
-          </h1>
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
+        <div className="text-center">
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-slate-200 border-t-indigo-600" />
+
+          <p className="text-sm font-medium text-slate-500">
+            Loading your profile...
+          </p>
         </div>
       </div>
     );
   }
 
-  const userDetais = edit ? (
-    <>
-      <div className="text-center">
-        <input
-          type="text"
-          name="username"
-          id="username"
-          className="h-11 w-full rounded-2xl border border-indigo-200 bg-indigo-50 px-4 text-center font-semibold text-indigo-700 outline-none transition focus:border-indigo-500 focus:bg-white"
-          value={profileData.username}
-          onChange={(e) => handleEdit("username", e.target.value)}
-          placeholder="Enter your username"
-        />
-
-        <div className="mt-2 flex items-center justify-center gap-2 text-sm text-slate-500">
-          <FaEnvelope />
-          <span>{profile?.email ?? "-"}</span>
-        </div>
-      </div>
-
-      <div className="my-6 border-t border-slate-200"></div>
-
-      <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-5 shadow-sm">
-        <div className="mb-4 flex items-center gap-2 text-indigo-600">
-          <FaMapMarkerAlt />
-          <h3 className="text-lg font-semibold">Address</h3>
-        </div>
-        <div className="flex flex-col gap-2">
-          <input
-            type="text"
-            name="street"
-            id="street"
-            className="h-11 rounded-2xl border border-slate-200 bg-white px-4 text-center font-semibold text-slate-700 outline-none transition focus:border-indigo-500"
-            value={profileData.street}
-            onChange={(e) => handleEdit("street", e.target.value)}
-            placeholder="Enter your street"
-          />
-
-          <input
-            type="text"
-            name="city"
-            id="city"
-            className="h-11 rounded-2xl border border-slate-200 bg-white px-4 text-center font-semibold text-slate-700 outline-none transition focus:border-indigo-500"
-            value={profileData.city}
-            onChange={(e) => handleEdit("city", e.target.value)}
-            placeholder="Enter your city"
-          />
-
-          <input
-            type="text"
-            name="state"
-            id="state"
-            className="h-11 rounded-2xl border border-slate-200 bg-white px-4 text-center font-semibold text-slate-700 outline-none transition focus:border-indigo-500"
-            value={profileData.state}
-            onChange={(e) => handleEdit("state", e.target.value)}
-            placeholder="Enter your state"
-          />
-
-          <input
-            type="text"
-            name="pinCode"
-            id="pinCode"
-            className="h-11 rounded-2xl border border-slate-200 bg-white px-4 text-center font-semibold text-slate-700 outline-none transition focus:border-indigo-500"
-            value={profileData.pinCode}
-            onChange={(e) => handleEdit("pinCode", e.target.value)}
-            placeholder="Enter your pin code"
-          />
-        </div>
-        <button
-          onClick={handleSave}
-          className="mt-6 w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 py-3 font-semibold text-white transition hover:from-indigo-700 hover:to-blue-700"
-        >
-          Save
-        </button>
-      </div>
-    </>
-  ) : (
-    <>
-      <div className="text-center">
-        <h2 className="text-2xl font-bold text-slate-900">
-          {profile?.username ?? "Guest"}
-        </h2>
-        <div className="mt-2 flex items-center justify-center gap-2 text-sm text-slate-500">
-          <FaEnvelope />
-          <span>{profile?.email ?? "-"}</span>
-        </div>
-      </div>
-      <div className="my-6 border-t border-slate-200"></div>
-      <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-5 shadow-sm">
-        <div className="mb-4 flex items-center gap-2 text-indigo-600">
-          <FaMapMarkerAlt />
-          <h3 className="text-lg font-semibold">Address</h3>
-        </div>
-
-        <div className="space-y-2 text-slate-700">
-          <div className="flex justify-between">
-            <span className="font-medium">Street</span>
-            <span>{profile.street || "-"}</span>
-          </div>
-
-          <div className="flex justify-between">
-            <span className="font-medium">City</span>
-            <span>{profile.city || "-"}</span>
-          </div>
-
-          <div className="flex justify-between">
-            <span className="font-medium">State</span>
-            <span>{profile.state || "-"}</span>
-          </div>
-
-          <div className="flex justify-between">
-            <span className="font-medium">PIN Code</span>
-            <span>{profile.pinCode || "-"}</span>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-
-  if (error) {
+  // -----------------------------
+  // Error
+  // -----------------------------
+  if (error && !profile) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6">
-        <div className="rounded-3xl border border-rose-200 bg-rose-50 px-8 py-6 shadow-sm text-center">
-          <h1 className="text-2xl font-semibold text-rose-700">{error}</h1>
-        </div>
-      </div>
-    );
-  }
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 p-6">
-      <div className="w-full max-w-md overflow-hidden rounded-[32px] border border-white/10 bg-white shadow-[0_25px_80px_-20px_rgba(15,23,42,0.45)]">
-        <div className="relative h-32 bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500">
-          <div className="absolute left-1/2 -bottom-14 -translate-x-1/2">
-            <div className="h-28 w-28 rounded-full bg-white p-1 shadow-lg">
-              <img
-                src={
-                  profile?.imageUrl ||
-                  "https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff"
-                }
-                alt="Profile"
-                className="h-full w-full rounded-full object-cover"
-              />
-              <label
-                htmlFor="profile-image"
-                className="cursor-pointer absolute top-2 right-0 w-7 h-7 rounded-full bg-sky-400 flex justify-center items-center transition-colors hover:bg-sky-500"
-              >
-                <MdOutlineModeEdit className="text-xl text-black  transition hover:scale-110" />
-              </label>
-
-              <input
-                id="profile-image"
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageChange}
-              />
-            </div>
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
+        <div className="w-full max-w-md rounded-3xl border border-red-100 bg-white p-8 text-center shadow-sm">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-red-50">
+            <FaTimes className="text-xl text-red-500" />
           </div>
-        </div>
-        <div className="px-6 pb-8 pt-20">
-          {userDetais}
+
+          <h2 className="text-xl font-bold text-slate-900">
+            Unable to load profile
+          </h2>
+
+          <p className="mt-2 text-sm text-slate-500">{error}</p>
+
           <button
-            className="mt-6 w-full rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 py-3 font-semibold text-white transition hover:from-indigo-700 hover:to-blue-700"
-            onClick={() => setEdit(!edit)}
+            onClick={() => dispatch(fetchProfile())}
+            className="mt-6 rounded-xl bg-indigo-600 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700"
           >
-            {edit ? "Cancel" : "Edit Profile"}
+            Try Again
           </button>
         </div>
       </div>
+    );
+  }
+
+  const profileImage =
+    profile?.imageUrl ||
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(
+      profile?.username || "User",
+    )}&background=4f46e5&color=fff&size=256`;
+
+  return (
+    <div className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
+      {/* Page Header */}
+      <div className="mx-auto mb-8 max-w-6xl">
+        <div>
+          <p className="text-sm font-medium text-indigo-600">Account</p>
+
+          <h1 className="mt-1 text-3xl font-bold tracking-tight text-slate-900">
+            My Profile
+          </h1>
+
+          <p className="mt-2 text-sm text-slate-500">
+            Manage your personal information and delivery address.
+          </p>
+        </div>
+      </div>
+
+      {/* Main Layout */}
+      <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[320px_1fr]">
+        {/* =====================================
+            LEFT PROFILE CARD
+        ====================================== */}
+        <aside className="h-fit overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+          {/* Cover */}
+          <div className="relative h-28 bg-gradient-to-br from-indigo-600 via-blue-600 to-cyan-500">
+            <div className="absolute inset-0 opacity-20">
+              <div className="absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white" />
+              <div className="absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-white" />
+            </div>
+          </div>
+
+          {/* Avatar */}
+          <div className="relative px-6">
+            <div className="-mt-14 flex justify-center">
+              <div className="relative">
+                <div className="h-28 w-28 rounded-full border-4 border-white bg-white p-1 shadow-lg">
+                  <img
+                    src={profileImage}
+                    alt="Profile"
+                    className="h-full w-full rounded-full object-cover"
+                  />
+                </div>
+
+                {/* Camera Button */}
+                <label
+                  htmlFor="profile-image"
+                  className="absolute bottom-1 right-0 flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border-4 border-white bg-indigo-600 text-white shadow-md transition hover:bg-indigo-700"
+                >
+                  {imageLoading ? (
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  ) : (
+                    <FaCamera className="text-sm" />
+                  )}
+                </label>
+
+                <input
+                  id="profile-image"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                  disabled={imageLoading}
+                />
+              </div>
+            </div>
+
+            {/* User info */}
+            <div className="pb-6 pt-4 text-center">
+              <h2 className="text-xl font-bold text-slate-900">
+                {profile?.username || "Guest User"}
+              </h2>
+
+              <div className="mt-2 flex items-center justify-center gap-2 text-sm text-slate-500">
+                <FaEnvelope className="text-indigo-500" />
+                <span className="break-all">{profile?.email || "-"}</span>
+              </div>
+
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
+                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                Account Active
+              </div>
+            </div>
+          </div>
+
+          {/* Account Info */}
+          <div className="border-t border-slate-100 px-6 py-5">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50">
+                <FaShieldAlt className="text-indigo-600" />
+              </div>
+
+              <div>
+                <p className="text-xs text-slate-400">Account Security</p>
+
+                <p className="text-sm font-semibold text-slate-700">
+                  Protected
+                </p>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        {/* =====================================
+            RIGHT CONTENT
+        ====================================== */}
+        <main className="rounded-3xl border border-slate-200 bg-white shadow-sm">
+          {/* Header */}
+          <div className="flex flex-col gap-4 border-b border-slate-100 px-6 py-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-xl font-bold text-slate-900">
+                Personal Information
+              </h2>
+
+              <p className="mt-1 text-sm text-slate-500">
+                Update the information associated with your account.
+              </p>
+            </div>
+
+            {!edit && (
+              <button
+                onClick={() => setEdit(true)}
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700"
+              >
+                <MdEdit className="text-lg" />
+                Edit Profile
+              </button>
+            )}
+          </div>
+
+          {/* Content */}
+          <div className="space-y-8 p-6">
+            {/* =============================
+                PERSONAL INFORMATION
+            ============================== */}
+            <section>
+              <div className="mb-5 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50">
+                  <FaUser className="text-indigo-600" />
+                </div>
+
+                <div>
+                  <h3 className="font-semibold text-slate-900">
+                    Basic Information
+                  </h3>
+
+                  <p className="text-xs text-slate-400">Your account details</p>
+                </div>
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                {/* Username */}
+                <div className="sm:col-span-2">
+                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                    Username
+                  </label>
+
+                  {edit ? (
+                    <input
+                      type="text"
+                      value={profileData.username}
+                      onChange={(e) => handleEdit("username", e.target.value)}
+                      className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-800 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-50"
+                      placeholder="Enter your username"
+                    />
+                  ) : (
+                    <div className="flex h-12 items-center rounded-xl bg-slate-50 px-4 text-sm font-medium text-slate-700">
+                      {profile?.username || "-"}
+                    </div>
+                  )}
+                </div>
+
+                {/* Email */}
+                <div className="sm:col-span-2">
+                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                    Email Address
+                  </label>
+
+                  <div className="flex h-12 items-center gap-3 rounded-xl bg-slate-50 px-4 text-sm font-medium text-slate-600">
+                    <FaEnvelope className="text-indigo-500" />
+                    {profile?.email || "-"}
+                  </div>
+
+                  <p className="mt-2 text-xs text-slate-400">
+                    Email address cannot be changed here.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Divider */}
+            <div className="border-t border-slate-100" />
+
+            {/* =============================
+                ADDRESS
+            ============================== */}
+            <section>
+              <div className="mb-5 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50">
+                  <MdLocationOn className="text-xl text-blue-600" />
+                </div>
+
+                <div>
+                  <h3 className="font-semibold text-slate-900">
+                    Delivery Address
+                  </h3>
+
+                  <p className="text-xs text-slate-400">
+                    Used for your orders and deliveries
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                {/* Street */}
+                <div className="sm:col-span-2">
+                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                    Street Address
+                  </label>
+
+                  {edit ? (
+                    <input
+                      type="text"
+                      value={profileData.street}
+                      onChange={(e) => handleEdit("street", e.target.value)}
+                      className="h-12 w-full rounded-xl border border-slate-200 px-4 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-50"
+                      placeholder="Enter your street address"
+                    />
+                  ) : (
+                    <AddressValue value={profile?.street} />
+                  )}
+                </div>
+
+                {/* City */}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                    City
+                  </label>
+
+                  {edit ? (
+                    <input
+                      type="text"
+                      value={profileData.city}
+                      onChange={(e) => handleEdit("city", e.target.value)}
+                      className="h-12 w-full rounded-xl border border-slate-200 px-4 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-50"
+                      placeholder="City"
+                    />
+                  ) : (
+                    <AddressValue value={profile?.city} />
+                  )}
+                </div>
+
+                {/* State */}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                    State
+                  </label>
+
+                  {edit ? (
+                    <input
+                      type="text"
+                      value={profileData.state}
+                      onChange={(e) => handleEdit("state", e.target.value)}
+                      className="h-12 w-full rounded-xl border border-slate-200 px-4 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-50"
+                      placeholder="State"
+                    />
+                  ) : (
+                    <AddressValue value={profile?.state} />
+                  )}
+                </div>
+
+                {/* PIN */}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-slate-700">
+                    PIN Code
+                  </label>
+
+                  {edit ? (
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={profileData.pinCode}
+                      onChange={(e) => handleEdit("pinCode", e.target.value)}
+                      className="h-12 w-full rounded-xl border border-slate-200 px-4 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-50"
+                      placeholder="PIN code"
+                    />
+                  ) : (
+                    <AddressValue value={profile?.pinCode} />
+                  )}
+                </div>
+              </div>
+            </section>
+
+            {/* =============================
+                ACTIONS
+            ============================== */}
+            {edit && (
+              <div className="flex flex-col-reverse gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:justify-end">
+                <button
+                  onClick={handleCancel}
+                  disabled={saveLoading}
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 px-5 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:opacity-50"
+                >
+                  <FaTimes />
+                  Cancel
+                </button>
+
+                <button
+                  onClick={handleSave}
+                  disabled={saveLoading}
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {saveLoading ? (
+                    <>
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <FaCheck />
+                      Save Changes
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
+
+// -----------------------------------------
+// Address display component
+// -----------------------------------------
+function AddressValue({ value }) {
+  return (
+    <div className="flex h-12 items-center rounded-xl bg-slate-50 px-4 text-sm font-medium text-slate-700">
+      {value || <span className="text-slate-400">Not provided</span>}
     </div>
   );
 }

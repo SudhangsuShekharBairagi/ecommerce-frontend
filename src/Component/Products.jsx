@@ -66,7 +66,10 @@ const Products = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 px-4 py-8 sm:px-6 lg:px-8">
+    <div
+      id="products"
+      className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 px-4 py-8 sm:px-6 lg:px-8"
+    >
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-3 rounded-[28px] border border-slate-200 bg-white/80 p-6 shadow-sm backdrop-blur sm:flex-row sm:items-end sm:justify-between">
           <div>

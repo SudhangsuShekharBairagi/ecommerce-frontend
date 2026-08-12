@@ -4,8 +4,10 @@ import {
   FaMobileAlt,
   FaHeadphones,
 } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
   return (
     <section className="bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 md:py-24 lg:grid-cols-2">
@@ -28,12 +30,18 @@ const HeroSection = () => {
 
           {/* Buttons */}
           <div className="mt-8 flex flex-wrap gap-4">
-            <button className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-semibold transition hover:bg-blue-700">
+            <button
+              onClick={() => navigate("/#products")}
+              className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-semibold transition hover:bg-blue-700"
+            >
               Shop Now
               <FaArrowRight />
             </button>
 
-            <button className="rounded-xl border border-slate-600 px-6 py-3 font-semibold text-slate-200 transition hover:bg-white/10">
+            <button
+              onClick={() => navigate("/#products")}
+              className="rounded-xl border border-slate-600 px-6 py-3 font-semibold text-slate-200 transition hover:bg-white/10"
+            >
               Browse Products
             </button>
           </div>

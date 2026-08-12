@@ -1,20 +1,18 @@
-import { Link, ScrollRestoration } from "react-router";
-import { FaGithub, FaLinkedin, FaInstagram, FaEnvelope } from "react-icons/fa";
+import { Link } from "react-router";
+import { FaEnvelope, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 function Footer() {
-  <ScrollRestoration />;
   return (
-    <footer className="mt-16 border-t border-slate-200 bg-white/80 backdrop-blur">
+    <footer className="mt-16 border-t border-slate-200 bg-white/80 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-6 py-12">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+            <h2 className="bg-linear-to-r from-indigo-600 to-blue-600 bg-clip-text text-2xl font-bold text-transparent">
               TechStore
             </h2>
             <p className="mt-4 text-sm leading-6 text-slate-600">
-              Your trusted destination for quality electronics and accessories.
-              Shop with confidence and enjoy a seamless online shopping
-              experience.
+              Premium electronics designed for faster decisions, cleaner
+              workflows, and everyday confidence.
             </p>
           </div>
 
@@ -65,7 +63,7 @@ function Footer() {
             <ul className="space-y-2 text-sm text-slate-600">
               <li>Help Center</li>
               <li>Returns & Refunds</li>
-              <li>Shipping Information</li>
+              <li>Shipping Info</li>
               <li>Privacy Policy</li>
             </ul>
           </div>

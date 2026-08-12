@@ -10,6 +10,7 @@ import {
 } from "../redux/productSlice";
 import AlertMessage from "./AlertMessage";
 import BackendStatus from "./BackendStatus";
+import RelatedProduct from "./RelatedProduct";
 
 const Product = () => {
   const { id } = useParams();
@@ -36,6 +37,7 @@ const Product = () => {
     }
   }, [dispatch, id, product, imageUrl]);
 
+  // console.log(product.category);
   const deleteProduct = async () => {
     try {
       await dispatch(deleteProductThunk(id)).unwrap();
@@ -160,105 +162,108 @@ const Product = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 px-4 py-8 sm:px-6 lg:px-8">
-      {altetInfo.show && (
-        <AlertMessage
-          message={altetInfo.message}
-          onClose={() => setAltetInfo({ show: false, message: " " })}
-        />
-      )}
-      <div className="mx-auto max-w-6xl">
-        <div className="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_25px_60px_-25px_rgba(15,23,42,0.35)]">
-          <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="flex items-center justify-center bg-gradient-to-br from-slate-100 via-white to-indigo-50 p-8 sm:p-10">
-              <img
-                src={imageUrl}
-                alt={product?.name || "Product image"}
-                className="w-full max-w-md rounded-[24px] object-contain shadow-sm transition-transform duration-300 hover:scale-105"
-              />
-            </div>
-
-            <div className="flex flex-col justify-between p-8 sm:p-10 lg:p-12">
-              <div>
-                <span className="mb-4 inline-flex rounded-full bg-indigo-100 px-3 py-1 text-sm font-semibold text-indigo-700">
-                  {product.category}
-                </span>
-
-                <h1 className="mb-3 text-3xl font-semibold text-slate-900 md:text-4xl">
-                  {product.name}
-                </h1>
-                <h5 className="mb-5 text-lg font-semibold text-slate-600">
-                  by {product.brand}
-                </h5>
-                <p className="mb-6 text-base leading-7 text-slate-600">
-                  {product.description}
-                </p>
+    <>
+      <div className="min-h-screen bg-white px-4 py-8 sm:px-6 lg:px-8">
+        {altetInfo.show && (
+          <AlertMessage
+            message={altetInfo.message}
+            onClose={() => setAltetInfo({ show: false, message: " " })}
+          />
+        )}
+        <div className="mx-auto max-w-6xl">
+          <div className="overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_25px_60px_-25px_rgba(15,23,42,0.35)]">
+            <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="flex items-center justify-center bg-gradient-to-br from-slate-100 via-white to-indigo-50 p-8 sm:p-10">
+                <img
+                  src={imageUrl}
+                  alt={product?.name || "Product image"}
+                  className="w-full max-w-md rounded-[24px] object-contain shadow-sm transition-transform duration-300 hover:scale-105"
+                />
               </div>
 
-              <div className="space-y-4 border-t border-slate-200 pt-6">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <span className="text-4xl font-semibold text-emerald-600">
-                    ₹{product.price}
+              <div className="flex flex-col justify-between p-8 sm:p-10 lg:p-12">
+                <div>
+                  <span className="mb-4 inline-flex rounded-full bg-indigo-100 px-3 py-1 text-sm font-semibold text-indigo-700">
+                    {product.category}
                   </span>
 
-                  <button
-                    disabled={!product.available}
-                    className={`rounded-2xl px-6 py-3 font-semibold text-white transition-all duration-300 ${
-                      product.available
-                        ? "bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 hover:shadow-lg"
-                        : "cursor-not-allowed bg-slate-400 cursor-pointer"
-                    }`}
-                    onClick={() => {
-                      product.available && handleQuantity();
-                    }}
-                  >
-                    {product.available ? "Add to Cart" : "Out of Stock"}
-                  </button>
+                  <h1 className="mb-3 text-3xl font-semibold text-slate-900 md:text-4xl">
+                    {product.name}
+                  </h1>
+                  <h5 className="mb-5 text-lg font-semibold text-slate-600">
+                    by {product.brand}
+                  </h5>
+                  <p className="mb-6 text-base leading-7 text-slate-600">
+                    {product.description}
+                  </p>
                 </div>
 
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="font-medium text-slate-700">
-                    Stock Available:
-                  </span>
-                  <span className="text-base font-semibold text-emerald-600">
-                    {product.quantity}
-                  </span>
+                <div className="space-y-4 border-t border-slate-200 pt-6">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <span className="text-4xl font-semibold text-emerald-600">
+                      ₹{product.price}
+                    </span>
+
+                    <button
+                      disabled={!product.available}
+                      className={`rounded-2xl px-6 py-3 font-semibold text-white transition-all duration-300 ${
+                        product.available
+                          ? "bg-linear-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 hover:shadow-lg"
+                          : "bg-slate-400"
+                      }`}
+                      onClick={() => {
+                        product.available && handleQuantity();
+                      }}
+                    >
+                      {product.available ? "Add to Cart" : "Out of Stock"}
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="font-medium text-slate-700">
+                      Stock Available:
+                    </span>
+                    <span className="text-base font-semibold text-emerald-600">
+                      {product.quantity}
+                    </span>
+                  </div>
+
+                  <div className="text-sm text-slate-600">
+                    <span className="font-medium text-slate-700">
+                      Product listed on:{" "}
+                    </span>
+                    <span className="italic">
+                      {new Date(product.releaseDate).toLocaleDateString()}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="text-sm text-slate-600">
-                  <span className="font-medium text-slate-700">
-                    Product listed on:{" "}
-                  </span>
-                  <span className="italic">
-                    {new Date(product.releaseDate).toLocaleDateString()}
-                  </span>
-                </div>
+                {role === "ROLE_ADMIN" && (
+                  <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                    <button
+                      type="button"
+                      onClick={handleEditClick}
+                      className="rounded-2xl bg-amber-500 px-5 py-3 font-semibold text-white transition hover:bg-amber-600"
+                    >
+                      Update
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={deleteProduct}
+                      className="rounded-2xl bg-rose-500 px-5 py-3 font-semibold text-white transition hover:bg-rose-600"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
               </div>
-
-              {role === "ROLE_ADMIN" && (
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <button
-                    type="button"
-                    onClick={handleEditClick}
-                    className="rounded-2xl bg-amber-500 px-5 py-3 font-semibold text-white transition hover:bg-amber-600"
-                  >
-                    Update
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={deleteProduct}
-                    className="rounded-2xl bg-rose-500 px-5 py-3 font-semibold text-white transition hover:bg-rose-600"
-                  >
-                    Delete
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <RelatedProduct category={product.category} />
+    </>
   );
 };
 
