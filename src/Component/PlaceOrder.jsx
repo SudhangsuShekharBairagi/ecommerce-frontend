@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "../component/ui/Button";
+import Button from "../Component/ui/Button";
 import { fetchProfile } from "../redux/profileSlice";
 import { placeOrder } from "../redux/orderSlice";
 
