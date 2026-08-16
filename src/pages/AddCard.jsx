@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductInCart from "./ProductInCart";
 import PlaceOrder from "../Component/PlaceOrder";
 import { fetchProductById, fetchProductImage } from "../redux/productSlice";
-
+import UserOrders from "../OrderComponents/UserOrders";
+import { fetchProfile } from "../redux/profileSlice";
 function AddCard() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart);

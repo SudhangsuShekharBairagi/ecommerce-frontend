@@ -28,7 +28,7 @@ export default function Button({
     <button
       type={type}
       className={[
-        "inline-flex items-center justify-center gap-2 rounded-2xl font-semibold transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-60",
+        "inline-flex items-center justify-center gap-2 rounded-2xl cursor-pointer font-semibold transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-60",
         variants[variant] || variants.primary,
         sizes[size] || sizes.md,
         className,

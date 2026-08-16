@@ -62,7 +62,7 @@ export default function Navbar() {
 
   const commonLinks = [
     { link: "/", name: "Home" },
-    { link: "/", name: "Shop" },
+    { link: "/orders", name: "MyOrders" },
   ];
 
   const guestLinks = [

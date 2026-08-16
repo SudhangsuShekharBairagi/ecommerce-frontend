@@ -144,6 +144,8 @@ export const addCartItems = async (data) => {
   return response.text();
 };
 
+
+// login Api
 export const login = async (credentials) => {
   const response = await fetch(`${API_BASE_URL}/auth/login`, {
     method: 'POST',

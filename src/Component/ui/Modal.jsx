@@ -11,7 +11,7 @@ export default function Modal({ open, onClose, title, children }) {
             onClick={onClose}
             className="rounded-full border border-slate-200 p-2 text-slate-600 transition hover:bg-slate-100"
           >
-            ×
+            x
           </button>
         </div>
         {children}
