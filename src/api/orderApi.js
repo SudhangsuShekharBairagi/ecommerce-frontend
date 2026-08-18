@@ -41,18 +41,23 @@ const request = async (path, options = {}) => {
 // Orders Api Admin
 
 export const getAdminAllOrders = async () =>{
-  const res = await request('admin/orders');
+  const res = await request('/admin/orders');
   return res.json();
 }
 
 export const getAdminAllOrdersById = async (id) => {
-  const res = await request(`admin/orders/${id}`);
+  const res = await request(`/admin/orders/${id}`);
   return res.json();
 }
 export const updateStatusAdmin = async (id, req) => {
   const res = await request(`/admin/orders/${id}/status`, {
     method: 'PATCH',
-    body: JSON.stringify(req)
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      status: req
+    })
   });
   return res;
 }

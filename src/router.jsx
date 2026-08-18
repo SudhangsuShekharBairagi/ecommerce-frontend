@@ -13,6 +13,7 @@ import Logout from "./auth/Logout";
 import Registration from "./auth/Registration";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import UserOrders from "./OrderComponents/UserOrders";
+import AdminOrder from "./OrderComponents/AdminOrder";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <UserOrders />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/adminOrders",
+        element: (
+          <ProtectedRoute>
+            <AdminOrder />
           </ProtectedRoute>
         ),
       },

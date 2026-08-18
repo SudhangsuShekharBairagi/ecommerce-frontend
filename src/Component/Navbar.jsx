@@ -62,7 +62,9 @@ export default function Navbar() {
 
   const commonLinks = [
     { link: "/", name: "Home" },
-    { link: "/orders", name: "MyOrders" },
+    ...(role === "ROLE_ADMIN"
+      ? [{ link: "/adminOrders", name: "Orders" }]
+      : [{ link: "/orders", name: "MyOrders" }]),
   ];
 
   const guestLinks = [

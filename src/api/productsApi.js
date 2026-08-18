@@ -25,6 +25,8 @@ const request = async (path, options = {}) => {
   // Token expired or invalid
   if (response.status === 401) {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("username");
     window.location.href = "/login";
     return;
   }

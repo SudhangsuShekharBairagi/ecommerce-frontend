@@ -1,15 +1,17 @@
 import React from "react";
 import Button from "../Component/ui/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { cancelUserOrder } from "../redux/orderSlice";
 
-function UserOrderList({ items, handleSetItems }) {
+function UserOrderList({ items, handleSetItems, user = {}, address = {} }) {
   const dispatch = useDispatch();
   const total = items.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0,
   );
+  const { role } = useSelector((state) => state.auth);
 
+  // console.log(items);
   return (
     <div
       onClick={() => handleSetItems(null)}
@@ -28,7 +30,7 @@ function UserOrderList({ items, handleSetItems }) {
             </p>
 
             <h2 className="mt-1 text-2xl font-bold text-gray-900">
-              Your Items
+              {role === "ROLE_ADMIN" ? "Items" : "  Your Items"}
             </h2>
 
             <p className="mt-1 text-sm text-gray-500">
@@ -46,6 +48,47 @@ function UserOrderList({ items, handleSetItems }) {
             x
           </button>
         </div>
+        {role === "ROLE_ADMIN" && (
+          <div className="px-6 py-5">
+            {user.length != 0 && (
+              <div>
+                <h1 className="mt-1 text-2xl font-bold text-gray-900">
+                  User Details
+                </h1>
+                <div className="flex justify-between space-y-3 ">
+                  <div>
+                    <img
+                      src={user.imageUrl}
+                      alt={user.username}
+                      className="w-24 h-24 rounded-full object-cover border-4 border-gray-100 shadow-sm"
+                    />
+                    <h3 className="text-xl font-bold text-gray-900">
+                      {user.username}
+                    </h3>
+                    <p className="text-gray-500 mt-1">{user.email}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-500 mb-2">
+                      Address
+                    </p>
+
+                    <div className="rounded-xl bg-gray-50 border border-gray-200 p-4">
+                      <p className="text-gray-900">{address?.street}</p>
+
+                      <p className="text-gray-700 mt-1">
+                        {address?.city}, {address?.state}
+                      </p>
+
+                      <p className="text-gray-700 mt-1">
+                        PIN Code: {address?.pinCode}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Items */}
         <div className="flex-1 overflow-y-auto bg-gray-100 px-4 py-5 sm:px-6">
